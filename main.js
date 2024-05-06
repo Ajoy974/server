@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // Render index page
-app.get('/', (req, res) => {
+app.get('/server', (req, res) => {
     res.render('index');
 });
 
@@ -22,11 +22,11 @@ app.post('/data', async (req, res) => {
         name: title,
         details: details
     });
-    res.redirect('/profile')
+    res.redirect('/server/profile')
 });
 
 // Fetch all tasks
-app.get('/tasks', async (req, res) => {
+app.get('/server/tasks', async (req, res) => {
     try {
         const tasks = await Task.find({});
         res.send(tasks);
@@ -36,7 +36,7 @@ app.get('/tasks', async (req, res) => {
     }
 });
 
-app.get('/tasks/:username', async (req, res) => {
+app.get('/server/tasks/:username', async (req, res) => {
     try {
         const profile = await Task.findOne({ name: req.params.username });
         res.render('profile', { name: profile.name, details: profile.details });
@@ -46,7 +46,7 @@ app.get('/tasks/:username', async (req, res) => {
     }
 });
 
-app.get('/profile', async (req, res) => {
+app.get('/server/profile', async (req, res) => {
     const profile = await Task.findOne({});
     res.render('profile', { name: profile.name, details: profile.details });
 });
